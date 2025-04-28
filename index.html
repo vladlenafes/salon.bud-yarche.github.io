@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Будь ярче - Салон красоты премиум-класса</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;600;700&display=swap');
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            scroll-behavior: smooth;
+            padding-bottom: 60px;
+            /* Space for cookie banner */
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1522335789203-aabd1fc54bc9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1887&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+
+        .playfair {
+            font-family: 'Playfair Display', serif;
+        }
+
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
+
+        .gallery-item {
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: scale(1.03);
+        }
+
+        .nav-link {
+            position: relative;
+        }
+
+        .nav-link:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #d4a373;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover:after {
+            width: 100%;
+        }
+
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            border-bottom: 2px solid #d4a373;
+            transition: all 0.3s ease;
+        }
+
+        .booking-form input:focus,
+        .booking-form select:focus,
+        .booking-form textarea:focus {
+            border-bottom: 2px solid #a47148;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .animate-fadeIn {
+            animation: fadeIn 1s ease forwards;
+        }
+
+        .delay-100 {
+            animation-delay: 0.1s;
+        }
+
+        .delay-200 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-300 {
+            animation-delay: 0.3s;
+        }
+
+        /* Cookie consent styles */
+        #cookie-consent {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: white;
+            color: #333;
+            padding: 15px;
+            z-index: 1000;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-top: 1px solid #ddd;
+        }
+
+        .cookie-content {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .cookie-text {
+            font-size: 14px;
+        }
+
+        .cookie-link {
+            color: #d4a373;
+            text-decoration: underline;
+            margin-left: 5px;
+        }
+
+        .cookie-link:hover {
+            color: #a47148;
+        }
+
+        .cookie-btn {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cookie-btn-accept {
+            background-color: #d4a373;
+            color: white;
+            border-color: #d4a373;
+        }
+
+        .cookie-btn-accept:hover {
+            background-color: #a47148;
+            border-color: #a47148;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header -->
+    <header class="fixed w-full bg-white shadow-md z-50">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <i class="fas fa-spa text-3xl text-amber-800 mr-2"></i>
+                    <h1 class="playfair text-2xl font-bold text-gray-800">Будь ярче</h1>
+                </div>
+
+                <nav class="hidden md:flex space-x-8">
+                    <a href="#home" class="nav-link text-gray-700 hover:text-amber-800">Главная</a>
+                    <a href="#services" class="nav-link text-gray-700 hover:text-amber-800">Услуги</a>
+                    <a href="#masters" class="nav-link text-gray-700 hover:text-amber-800">Мастера</a>
+                    <a href="#gallery" class="nav-link text-gray-700 hover:text-amber-800">Галерея</a>
+                    <a href="#contacts" class="nav-link text-gray-700 hover:text-amber-800">Контакты</a>
+                </nav>
+
+                <div class="flex items-center space-x-4">
+                    <a href="tel:+78452627906" class="hidden md:block text-gray-700 hover:text-amber-800">
+                        <i class="fas fa-phone mr-2"></i>+7 (845) 262-79-06
+                    </a>
+                    <button id="menu-btn" class="md:hidden text-gray-700 focus:outline-none">
+                        <i class="fas fa-bars text-2xl"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Mobile menu -->
+            <div id="mobile-menu" class="hidden md:hidden mt-4 pb-4">
+                <a href="#home" class="block py-2 text-gray-700 hover:text-amber-800">Главная</a>
+                <a href="#services" class="block py-2 text-gray-700 hover:text-amber-800">Услуги</a>
+                <a href="#masters" class="block py-2 text-gray-700 hover:text-amber-800">Мастера</a>
+                <a href="#gallery" class="block py-2 text-gray-700 hover:text-amber-800">Галерея</a>
+                <a href="#contacts" class="block py-2 text-gray-700 hover:text-amber-800">Контакты</a>
+                <a href="tel:+78452627906" class="block py-2 text-gray-700 hover:text-amber-800">
+                    <i class="fas fa-phone mr-2"></i>+7 (845) 262-79-06
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero min-h-screen flex items-center justify-center text-white pt-20">
+        <div class="container mx-auto px-6 text-center animate-fadeIn">
+            <h1 class="playfair text-4xl md:text-6xl font-bold mb-6">Ваша красота - наша страсть</h1>
+            <p class="text-xl md:text-2xl mb-8 max-w-2xl mx-auto">Премиальный салон красоты, где каждая деталь создана
+                для вашего комфорта и совершенства</p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+                <a href="https://dikidi.net/1690920?p=0.pi"
+                    class="bg-amber-700 hover:bg-amber-800 text-white px-8 py-3 rounded-full font-semibold transition duration-300 transform hover:scale-105">Записаться
+                    онлайн</a>
+                <a href="#services"
+                    class="border-2 border-white hover:bg-white hover:text-gray-800 text-white px-8 py-3 rounded-full font-semibold transition duration-300 transform hover:scale-105">Наши
+                    услуги</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center">
+                <div class="md:w-1/2 mb-10 md:mb-0 md:pr-10 animate-fadeIn delay-100">
+                    <h2 class="playfair text-3xl md:text-4xl font-bold text-gray-800 mb-6">О салоне Будь ярче</h2>
+                    <p class="text-gray-600 mb-4">Салон красоты Будь ярче - это место, где встречаются профессионализм,
+                        инновации и индивидуальный подход к каждому клиенту.</p>
+                    <p class="text-gray-600 mb-6">Наша команда мастеров с многолетним опытом работы использует только
+                        профессиональную косметику премиум-класса и современное оборудование.</p>
+                    <div class="flex flex-wrap gap-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-amber-700 mr-2"></i>
+                            <span class="text-gray-700">Сертифицированные мастера</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-amber-700 mr-2"></i>
+                            <span class="text-gray-700">Премиальные бренды</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-check-circle text-amber-700 mr-2"></i>
+                            <span class="text-gray-700">Индивидуальный подход</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="md:w-1/2">
+                    <img src="https://images.unsplash.com/photo-1595476108010-b4d1f102b1b1?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1288&q=80"
+                        alt="Салон красоты" class="rounded-lg shadow-xl w-full">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <div class="text-center mb-16 animate-fadeIn">
+                <h2 class="playfair text-3xl md:text-4xl font-bold text-gray-800 mb-4">Наши услуги</h2>
+                <p class="text-gray-600 max-w-2xl mx-auto">Мы предлагаем полный спектр услуг для вашей красоты и ухода
+                    за собой</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Service 1 -->
+                <div
+                    class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300 animate-fadeIn delay-100">
+                    <div class="text-amber-700 text-4xl mb-4">
+                        <i class="fas fa-cut"></i>
+                    </div>
+                    <h3 class="playfair text-xl font-bold text-gray-800 mb-3">Парикмахерские услуги</h3>
+                    <p class="text-gray-600 mb-4">Стрижки, окрашивание, укладки, кератиновое выпрямление и многое другое
+                        от наших топ-мастеров.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Женские стрижки от 2500₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Мужские стрижки от 1500₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Окрашивание от 3500₽</span>
+                        </li>
+                    </ul>
+                    <a href="https://dikidi.net/1690920?p=0.pi"
+                        class="text-amber-700 font-semibold hover:text-amber-800 flex items-center">
+                        Записаться <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Service 2 -->
+                <div
+                    class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300 animate-fadeIn delay-200">
+                    <div class="text-amber-700 text-4xl mb-4">
+                        <i class="fas fa-spa"></i>
+                    </div>
+                    <h3 class="playfair text-xl font-bold text-gray-800 mb-3">Косметология</h3>
+                    <p class="text-gray-600 mb-4">Профессиональный уход за кожей лица и тела с использованием
+                        премиальной косметики.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Чистка лица от 3000₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Пилинги от 3500₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Уходовые процедуры от 4000₽</span>
+                        </li>
+                    </ul>
+                    <a href="https://dikidi.net/1690920?p=0.pi"
+                        class="text-amber-700 font-semibold hover:text-amber-800 flex items-center">
+                        Записаться <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Service 3 -->
+                <div
+                    class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300 animate-fadeIn delay-300">
+                    <div class="text-amber-700 text-4xl mb-4">
+                        <i class="fas fa-paint-brush"></i>
+                    </div>
+                    <h3 class="playfair text-xl font-bold text-gray-800 mb-3">Ногтевой сервис</h3>
+                    <p class="text-gray-600 mb-4">Маникюр, педикюр, наращивание и дизайн ногтей с использованием
+                        качественных материалов.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Маникюр от 1500₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Педикюр от 2000₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Наращивание от 3500₽</span>
+                        </li>
+                    </ul>
+                    <a href="https://dikidi.net/1690920?p=0.pi"
+                        class="text-amber-700 font-semibold hover:text-amber-800 flex items-center">
+                        Записаться <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Service 4 -->
+                <div
+                    class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300 animate-fadeIn delay-100">
+                    <div class="text-amber-700 text-4xl mb-4">
+                        <i class="fas fa-eye"></i>
+                    </div>
+                    <h3 class="playfair text-xl font-bold text-gray-800 mb-3">Брови и ресницы</h3>
+                    <p class="text-gray-600 mb-4">Идеальная форма и выразительный взгляд для ваших бровей и ресниц.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Коррекция/окрашивание бровей от 500₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Ламинирование бровей от 1000₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Ламинирование ресниц от 1600₽ </span>
+                        </li>
+                    </ul>
+                    <a href="https://dikidi.net/1690920?p=0.pi"
+                        class="text-amber-700 font-semibold hover:text-amber-800 flex items-center">
+                        Записаться <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Service 5 -->
+                <div
+                    class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300 animate-fadeIn delay-200">
+                    <div class="text-amber-700 text-4xl mb-4">
+                        <i class="fas fa-tshirt"></i>
+                    </div>
+                    <h3 class="playfair text-xl font-bold text-gray-800 mb-3">Эпиляция</h3>
+                    <p class="text-gray-600 mb-4">Современные методы удаления нежелательных волос на любых участках
+                        тела.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Восковая эпиляция от 1000₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Шугаринг от 1200₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Лазерная эпиляция от 2500₽</span>
+                        </li>
+                    </ul>
+                    <a href="https://dikidi.net/1690920?p=0.pi"
+                        class="text-amber-700 font-semibold hover:text-amber-800 flex items-center">
+                        Записаться <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+
+                <!-- Service 6 -->
+                <div
+                    class="service-card bg-white p-8 rounded-lg shadow-md transition duration-300 animate-fadeIn delay-300">
+                    <div class="text-amber-700 text-4xl mb-4">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3 class="playfair text-xl font-bold text-gray-800 mb-3">Пирсинг</h3>
+                    <p class="text-gray-600 mb-4">Разнообразие видов пирсинга для добавления изюминки.</p>
+                    <ul class="space-y-2 mb-6">
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Пирсинг ушей детский от 1850₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Пирсинг носа от 1300₽</span>
+                        </li>
+                        <li class="flex items-center">
+                            <i class="fas fa-check text-amber-700 mr-2 text-sm"></i>
+                            <span class="text-gray-700">Пирсинг пупка от 1800₽</span>
+                        </li>
+                    </ul>
+                    <a href="https://dikidi.net/1690920?p=0.pi"
+                        class="text-amber-700 font-semibold hover:text-amber-800 flex items-center">
+                        Записаться <i class="fas fa-arrow-right ml-2"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Masters Section -->
+    <section id="masters" class="py-20 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="playfair text-3xl md:text-4xl font-bold text-center text-gray-800 mb-16">Наши мастера</h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <!-- Master 1 -->
+                <div class="text-center">
+                    <img
+                        src="https://sun9-28.userapi.com/impg/itMgnWZA1on8p9sdoepbZi9gKuKovF5CAx0yTw/ePHZ3gDRxXo.jpg?size=1024x1280&quality=95&sign=09444acd0af67af76d7274f54fb911cd&type=album">
+                    <h3 class="playfair text-xl font-bold text-gray-800">Атаманова Оля</h3>
+                    <p class="text-gray-600">Косметолог</p>
+                    <p class="text-gray-500 mt-2">Специалист с медицинским образованием</p>
+                </div>
+
+                <!-- Master 2 -->
+                <div class="text-center">
+                    <img src="https://sun9-9.userapi.com/impg/cVDdfOVcO_JKll4cDNqTNaB1Ds9EY_ZiFOK8-w/O5rQVAm2YqM.jpg?size=696x736&quality=95&sign=c24bb9bc05773f655471e0297cfee0db&type=album"
+                        alt="Елена" class="w-full h-64 object-cover rounded-lg mb-4">
+                    <h3 class="playfair text-xl font-bold text-gray-800">Цветкова Елена</h3>
+                    <p class="text-gray-600">Мастер ногтевого сервиса</p>
+                    <p class="text-gray-500 mt-2">Эксперт по маникюру, педикюру и наращиванию ногтей</p>
+                </div>
+                <div class="text-center">
+                    <img src="https://sun9-77.userapi.com/impg/fbZnj88M11b9naaGENnDRJ_KN54ALqu2XulIdw/zvvP81r4XWk.jpg?size=725x725&quality=95&sign=52101a1e7b32afae4706256a827fe1d7&type=album"
+                        alt="Мария" class="w-full h-64 object-cover rounded-lg mb-4">
+                    <h3 class="playfair text-xl font-bold text-gray-800">Галичкина Юлия</h3>
+                    <p class="text-gray-600">Парикмахер-стилист</p>
+                    <p class="text-gray-500 mt-2">Специализируется на современных стрижках и сложном окрашивании</p>
+                </div>
+
+                <!-- Master 4 -->
+                <div class="text-center">
+                    <img src="https://sun9-9.userapi.com/impg/R_LYiEBnU5y8R0ch1KZ1r1-ouR0Lzr_50Ip8uA/VRid-PvUtvU.jpg?size=724x711&quality=95&sign=25ec0e94a40ab989943e6bf08a695c1e&type=album"
+                        alt="Ольга" class="w-full h-64 object-cover rounded-lg mb-4">
+                    <h3 class="playfair text-xl font-bold text-gray-800">Сараева Маргарита</h3>
+                    <p class="text-gray-600">Парикмахер-стилист</p>
+                    <p class="text-gray-500 mt-2">Мастер наращивания, стрижки и окрашивании волос</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="playfair text-3xl md:text-4xl font-bold text-center text-gray-800 mb-16">Наши
+                работы</h2>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md">
+                    <img src="https://sun9-51.userapi.com/impg/HRMhKkj1hfSUhIh3MycTjqa69ZhkMQcfOwN5VA/SSIZoJDKExs.jpg?size=1280x1280&quality=95&sign=3cb2048802ade230de2d87dc6af70e0e&type=album"
+                        alt="Работа 1" class="w-full h-64 object-cover">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md">
+                    <img src="https://sun9-32.userapi.com/impg/VnuRsVZu7R4PU8wWykQtKRGxIwX9CZoMMhqscg/DlZOBeFkkvc.jpg?size=960x1280&quality=95&sign=17e968cccaf15852b27ca96e37b5d6f8&type=album"
+                        alt="Работа 2" class="w-full h-64 object-cover">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md">
+                    <img src="https://sun9-76.userapi.com/impg/-boWk2m-lp987RsyulgMu8jLk0lfRN2PGzQjdQ/Q1jHPyR-YHo.jpg?size=1242x1236&quality=95&sign=851117144460b6b8ae075a03fa8b2d20&type=album"
+                        alt="Работа 3" class="w-full h-64 object-cover">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md">
+                    <img src="https://sun9-40.userapi.com/impg/OUr-2t4Rmj19WBdmjqXlnfeMqPzGxKyYAs0PQg/DMVl2w5Obl8.jpg?size=960x1280&quality=95&sign=0e6cf68de58d38bf3059a1f832ef8fa9&type=album"
+                        alt="Работа 4" class="w-full h-64 object-cover">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md">
+                    <img src="https://sun9-58.userapi.com/impg/gFh7jXdVuMvFyXFWXq9DuI0TKiogvXIxxfmQiA/surIqSvYad8.jpg?size=960x1280&quality=95&sign=166a2eae1bf7715829004c514ad1251a&type=album"
+                        alt="Работа 5" class="w-full h-64 object-cover">
+                </div>
+                <div class="gallery-item overflow-hidden rounded-lg shadow-md">
+                    <img src="https://sun9-8.userapi.com/impg/2kigv7lo7zxeIQWJ37I_YyO5d_YHR4aI7Z5yjw/rS1qu51fqwQ.jpg?size=960x1280&quality=95&sign=2f5c1fa263abfbf7f2fbd62b90869bdc&type=album"
+                        alt="Работа 6" class="w-full h-64 object-cover">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contacts Section -->
+    <section id="contacts" class="py-20 bg-gray-50">
+        <div class="container mx-auto px-6">
+            <h2 class="playfair text-3xl md:text-4xl font-bold text-center text-gray-800 mb-16">
+                Контакты</h2>
+
+            <div class="flex flex-col md:flex-row gap-12">
+                <div class="md:w-1/2">
+                    <div class="bg-white p-8 rounded-lg shadow-md">
+                        <h3 class="playfair text-xl font-bold text-gray-800 mb-4">Как нас найти</h3>
+
+                        <div class="space-y-4">
+                            <div class="flex items-start">
+                                <i class="fas fa-map-marker-alt text-amber-700 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-800">Адрес:</p>
+                                    <p class="text-gray-600">г. Саратов, ул. имени К.Г. Уфимцева, д.
+                                        2</p>
+                                </div>
+                            </div>
+
+                            <div class="flex items-start">
+                                <i class="fas fa-phone-alt text-amber-700 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-800">Телефон:</p>
+                                    <p class="text-gray-600">+7 (845) 262-79-06</p>
+                                </div>
+                            </div>
+
+
+                            <div class="flex items-start">
+                                <i class="fas fa-clock text-amber-700 mt-1 mr-3"></i>
+                                <div>
+                                    <p class="font-medium text-gray-800">Часы работы:</p>
+                                    <p class="text-gray-600">Пн-Вс: 09:00-20:00</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8">
+                            <h4 class="playfair text-lg font-bold text-gray-800 mb-3">Мы в соцсетях
+                            </h4>
+                            <div class="flex space-x-2">
+                                <a href="https://www.instagram.com/budiarche?igsh=dnNiNnRyODZieDlp"
+                                    class="text-gray-600 hover:text-amber-700"><i
+                                        class="fab fa-instagram text-2xl"></i></a>
+                                <a href="https://t.me/budiarche" class="text-gray-600 hover:text-amber-700"><i
+                                        class="fab fa-telegram text-2xl"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="md:w-1/2">
+                    <div class="h-full rounded-lg overflow-hidden shadow-md">
+                        <iframe
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2083.5014747051514!2d45.99373560101163!3d51.61011449558239!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4114cf3c3c4e4b9f%3A0x1f9cbf0aa2ff55f7!2z0YPQuy4g0KPRhNC40LzRhtC10LLQsCwgMiwg0KHQsNGA0LDRgtC-0LIsINCh0LDRgNCw0YLQvtCy0YHQutCw0Y8g0L7QsdC7LiwgNDEwMDM1!5e0!3m2!1sru!2sru!4v1744987493161!5m2!1sru!2sru"
+                            width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-8 md:mb-0">
+                    <div class="flex items-center mb-4">
+                        <i class="fas fa-spa text-3xl text-amber-500 mr-2"></i>
+                        <h2 class="playfair text-2xl font-bold">Будь ярче</h2>
+                    </div>
+                    <p class="text-gray-400 max-w-xs">Премиальный салон красоты в Саратове.
+                        Профессионализм, качество и
+                        индивидуальный подход.</p>
+                </div>
+
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-8">
+                    <div>
+                        <h3 class="playfair text-lg font-bold mb-4">Меню</h3>
+                        <ul class="space-y-2">
+                            <li><a href="#home" class="text-gray-400 hover:text-amber-500 transition">Главная</a>
+                            </li>
+                            <li><a href="#services" class="text-gray-400 hover:text-amber-500 transition">Услуги</a>
+                            </li>
+                            <li><a href="#masters" class="text-gray-400 hover:text-amber-500 transition">Мастера</a>
+                            </li>
+                            <li><a href="#gallery" class="text-gray-400 hover:text-amber-500 transition">Галерея</a>
+                            </li>
+                            <li><a href="#contacts" class="text-gray-400 hover:text-amber-500 transition">Контакты</a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="playfair text-lg font-bold mb-4">Контакты</h3>
+                        <ul class="space-y-2">
+                            <li class="text-gray-400">г. Саратов, ул. имени К.Г. Уфимцева, д. 2</li>
+                            <li class="text-gray-400">+7 (845) 262-79-06</li>
+                        </ul>
+                    </div>
+
+                    <div>
+                        <h3 class="playfair text-lg font-bold mb-4">Соцсети</h3>
+                        <div class="flex space-x-2">
+                            <a href="https://www.instagram.com/budiarche?igsh=dnNiNnRyODZieDlp"
+                                class="text-gray-400 hover:text-amber-500 transition"><i
+                                    class="fab fa-instagram text-xl"></i></a>
+                            <a href="https://t.me/budiarche" class="text-gray-400 hover:text-amber-500 transition"><i
+                                    class="fab fa-telegram text-xl"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
+                <p class="text-gray-400 mb-4 md:mb-0">© 2025 Будь ярче. Все права защищены.</p>
+                <div class="flex space-x-6">
+                    <a href="rules.html" class="text-gray-400 hover:text-amber-500 transition">Политика
+                        конфиденциальности</a>
+                    <a href="rules.html" class="text-gray-400 hover:text-amber-500 transition">Пользовательское
+                        соглашение</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to top button -->
+    <button id="back-to-top"
+        class="fixed bottom-20 right-6 bg-amber-700 text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-amber-800">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-consent">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                Мы используем файлы cookie для улучшения работы сайта.
+                <a href="rules.html" class="cookie-link">Подробнее</a>
+            </div>
+            <button id="cookie-accept" class="cookie-btn cookie-btn-accept">Согласен</button>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // Back to top button
+        const backToTopBtn = document.getElementById('back-to-top');
+
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.remove('opacity-0', 'invisible');
+                backToTopBtn.classList.add('opacity-100', 'visible');
+            } else {
+                backToTopBtn.classList.remove('opacity-100', 'visible');
+                backToTopBtn.classList.add('opacity-0', 'invisible');
+            }
+        });
+
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+
+        // Smooth scrolling for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+
+                    // Close mobile menu if open
+                    if (!mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.add('hidden');
+                    }
+                }
+            });
+        });
+
+        // Form submission
+        const bookingForm = document.querySelector('.booking-form');
+        if (bookingForm) {
+            bookingForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+
+                // Here you would typically send the form data to the server
+                // For this example, we'll just show an alert
+                alert('Спасибо за вашу заявку! Мы свяжемся с вами в ближайшее время для подтверждения записи.');
+
+                // Reset the form
+                this.reset();
+            });
+        }
+
+        // Cookie consent functionality
+        document.addEventListener('DOMContentLoaded', function () {
+            const cookieConsent = document.getElementById('cookie-consent');
+            const cookieAcceptBtn = document.getElementById('cookie-accept');
+
+            // Check if user has already accepted cookies
+            if (!localStorage.getItem('cookieConsent')) {
+                // Show cookie consent
+                cookieConsent.style.display = 'flex';
+            }
+
+            // Handle accept button click
+            cookieAcceptBtn.addEventListener('click', function () {
+                // Store acceptance in localStorage
+                localStorage.setItem('cookieConsent', 'accepted');
+                // Hide the banner
+                cookieConsent.style.display = 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>
